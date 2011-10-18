@@ -1,0 +1,30 @@
+<%
+' --------------------------------------------
+' Redirecting visits from "wrong" domain names
+' Used for no-www -> www, test domains, etc.
+' 
+' What it does: looks at what the domain name for the current request is, and if it matches one of the strings in the redirectFrom array, redirects the request to the same page on the right domain name (canonicalDomain).
+' When to use: when, for server configuration or implementation reasons you can't change, a website can be accessed from several domain names. You probably want each page of the website to have a canonical URL with a domain name optimized for search engines, rather than risking your content being indexed with a technical domain name such as "thewebsite.clientname.prodserver2.ourcompany.com".
+' Remarks: a) I didn't use 3-letter prefixes in variable names to indicate the type of the variable, even though that's a convention. It seemed overkill for such a short script. b) I wrote this script because everything else I found online was incomplete or crappy.
+' --------------------------------------------
+
+' Change this for each website
+Dim canonicalDomain, redirectFrom(1)
+canonicalDomain = "www.example.com"
+redirectFrom(0) = "example.com"
+redirectFrom(1) = "examplewebsite.live.ourcompany.com"
+
+' OK to keep this without changes
+Dim requestDomain, requestUrl, canonicalUrl
+requestDomain = Request.ServerVariables("HTTP_HOST")
+requestPath = Request.ServerVariables("SCRIPT_NAME")
+canonicalUrl = "http://" & canonicalDomain & requestPath
+
+For Each domain In redirectFrom
+  If domain = requestDomain Then
+    Response.Status = "301 Moved Permanently"
+    Response.AddHeader "Location", canonicalUrl
+    Response.End
+  End If
+Next
+%>
