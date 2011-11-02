@@ -1,0 +1,20 @@
+<!--
+  OPTIMAL DECLARATION OF BIG SCREEN AND SMALL (MOBILE) SCREEN STYLESHEETS
+  By @goetter in http://forum.alsacreations.com/topic-27-58389-1.html
+  
+  Big/small screen threshold: it might be useful to change the 480/481px
+  values to something slightly bigger to accomodate some Android devices.
+
+  We're using Media Queries to address one stylesheet or the other to
+  browsers. The use of the media query syntax has a filtering effect
+  (browsers with no media query support will discard the link element).
+  Right now (2011+) web browsers with no Media Queries support are mostly
+  IE 6-8 (desktop and mobile versions, including IE7 Mobile on WP7.0),
+  and we can use conditional comments to serve the right stylesheets to
+  these browsers.
+-->
+
+<link rel="stylesheet" href="big.css" media="screen and (min-device-width:481px)">
+<!--[if lt IE 9]><link rel="stylesheet" href="big.css" media="screen"><![endif]-->
+<link rel="stylesheet" href="small.css" media="handheld, screen and (max-device-width:480px)">
+<!--[if IEMobile 7]><link rel="stylesheet" href="small.css" media="screen"><![endif]-->
